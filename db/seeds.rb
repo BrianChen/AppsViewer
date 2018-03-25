@@ -6,12 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-stages = ['initial', 'processing', 'approved', 'closed']
-
 
 100.times do
-  Application.create({
-    stage: stages.sample,
+  puts Application.stages.to_a.sample[1]
+
+  Application.create!({
+    stage: Application.stages.to_a.sample[1].to_i,
     created_at: (Date.today + rand(0..24).hour + rand(0..60).minutes).to_datetime
   })
 end
