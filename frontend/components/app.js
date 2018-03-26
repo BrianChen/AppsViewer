@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Header from './header';
+import ChartOptions from './chart-options';
+import Chart from './chart';
 import { fetchApplications, asArray} from '../helpers/api';
 
 class App extends React.Component {
@@ -9,10 +11,13 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      apps: []
+      apps: [],
+      chart: 1,
     }
 
     this.updateApplications = this.updateApplications.bind(this);
+    this.renderChartOne = this.renderChartOne.bind(this);
+    this.updateChartNum = this.updateChartNum.bind(this);
   }
 
   componentWillMount() {
@@ -27,17 +32,33 @@ class App extends React.Component {
 
   updateApplications(data) {
     const apps = asArray(data);
-    
+
     this.setState({
       apps
     });
   }
 
+  renderChartOne() {
+    if (this.state.apps.length > 0) {
+      return (
+        <Chart apps={this.state.apps}/>
+      );
+    }
+  }
+
+  updateChartNum(num) {
+    this.setState({
+      chartNum: num,
+    });
+  }
+
+
   render() {
-    debugger;
     return (
       <div className='app'>
         <Header />
+        <ChartOptions updateChartNum={this.updateChartNum}/>
+        {this.renderChartOne()}
       </div>
     );
   }
