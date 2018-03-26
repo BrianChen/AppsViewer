@@ -20,15 +20,8 @@ class App extends React.Component {
     this.reloadApps = this.reloadApps.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     fetchApplications(this.updateApplications, (err) => console.log(err));
-    // if (localStorage.apps) {
-    //   this.setState({
-    //     apps: localStorage.apps
-    //   });
-    // } else {
-    //   fetchApplications(this.updateApplications, (err) => console.log(err));
-    // }
   }
 
   updateApplications(data) {
@@ -40,18 +33,7 @@ class App extends React.Component {
   }
 
   reloadApps() {
-    // Deletes the 100 applications and re-seeds another 100 applications with the same random figures
-    // Reload the page after re-seeding is complete and the page should re-render the charts with the new data points
-
     fetchReloadedApps(this.updateApplications, (err) => console.log(err));
-  }
-
-  renderChart() {
-    if (this.state.apps.length > 0) {
-      return (
-        <Chart chartNum={this.state.chartNum} apps={this.state.apps}/>
-      );
-    }
   }
 
   updateChartNum(num) {
@@ -60,13 +42,12 @@ class App extends React.Component {
     });
   }
 
-
   render() {
     return (
       <div className='app'>
         <Header />
         <ChartOptions updateChartNum={this.updateChartNum} reloadApps={this.reloadApps}/>
-        {this.renderChart()}
+        <Chart chartNum={this.state.chartNum} apps={this.state.apps}/>
       </div>
     );
   }

@@ -11,25 +11,27 @@ class Chart extends React.Component {
       chartData: {},
       chartOptions: {}
     }
+
+    this.updateChartState = this.updateChartState.bind(this);
   }
 
-  componentWillMount() {
-    this.updateChartState(this.props.chartNum);
+  componentDidMount() {
+    this.updateChartState(this.props.chartNum, this.props.apps);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.updateChartState(nextProps.chartNum);
+    this.updateChartState(nextProps.chartNum, nextProps.apps);
   }
 
-  updateChartState(chartNum) {
+  updateChartState(chartNum, apps) {
     let chartData = {};
     let chartOptions = {};
 
     if (chartNum === 1) {
-      chartData = getChartOneData(this.props.apps);
+      chartData = getChartOneData(apps);
       chartOptions = getChartOneOptions();
     } else if (chartNum === 2) {
-      chartData = getChartTwoData(this.props.apps);
+      chartData = getChartTwoData(apps);
       chartOptions = getChartTwoOptions();
     }
 
