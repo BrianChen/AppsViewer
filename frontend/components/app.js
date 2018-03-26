@@ -3,7 +3,7 @@ import React from 'react';
 import Header from './header';
 import ChartOptions from './chart-options';
 import Chart from './chart';
-import { fetchApplications, asArray} from '../helpers/api';
+import { fetchApplications, asArray, fetchReloadedApps} from '../helpers/api';
 
 class App extends React.Component {
 
@@ -16,26 +16,26 @@ class App extends React.Component {
     }
 
     this.updateApplications = this.updateApplications.bind(this);
-    this.renderChartOne = this.renderChartOne.bind(this);
     this.updateChartNum = this.updateChartNum.bind(this);
     this.reloadApps = this.reloadApps.bind(this);
   }
 
   componentWillMount() {
-    if (localStorage.apps) {
-      this.setState({
-        apps: localStorage.apps
-      });
-    } else {
-      fetchApplications(this.updateApplications, (err) => console.log(err));
-    }
+    fetchApplications(this.updateApplications, (err) => console.log(err));
+    // if (localStorage.apps) {
+    //   this.setState({
+    //     apps: localStorage.apps
+    //   });
+    // } else {
+    //   fetchApplications(this.updateApplications, (err) => console.log(err));
+    // }
   }
 
   updateApplications(data) {
     const apps = asArray(data);
 
     this.setState({
-      apps
+      apps: apps
     });
   }
 
@@ -43,10 +43,10 @@ class App extends React.Component {
     // Deletes the 100 applications and re-seeds another 100 applications with the same random figures
     // Reload the page after re-seeding is complete and the page should re-render the charts with the new data points
 
-    
+    fetchReloadedApps(this.updateApplications, (err) => console.log(err));
   }
 
-  renderChartOne() {
+  renderChart() {
     if (this.state.apps.length > 0) {
       return (
         <Chart chartNum={this.state.chartNum} apps={this.state.apps}/>
@@ -66,7 +66,7 @@ class App extends React.Component {
       <div className='app'>
         <Header />
         <ChartOptions updateChartNum={this.updateChartNum} reloadApps={this.reloadApps}/>
-        {this.renderChartOne()}
+        {this.renderChart()}
       </div>
     );
   }
