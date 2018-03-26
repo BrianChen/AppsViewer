@@ -12,12 +12,13 @@ class App extends React.Component {
 
     this.state = {
       apps: [],
-      chartNum: 2,
+      chartNum: 1,
     }
 
     this.updateApplications = this.updateApplications.bind(this);
     this.renderChartOne = this.renderChartOne.bind(this);
     this.updateChartNum = this.updateChartNum.bind(this);
+    this.reloadApps = this.reloadApps.bind(this);
   }
 
   componentWillMount() {
@@ -36,6 +37,13 @@ class App extends React.Component {
     this.setState({
       apps
     });
+  }
+
+  reloadApps() {
+    // Deletes the 100 applications and re-seeds another 100 applications with the same random figures
+    // Reload the page after re-seeding is complete and the page should re-render the charts with the new data points
+
+    
   }
 
   renderChartOne() {
@@ -57,7 +65,7 @@ class App extends React.Component {
     return (
       <div className='app'>
         <Header />
-        <ChartOptions updateChartNum={this.updateChartNum}/>
+        <ChartOptions updateChartNum={this.updateChartNum} reloadApps={this.reloadApps}/>
         {this.renderChartOne()}
       </div>
     );

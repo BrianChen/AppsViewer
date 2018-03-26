@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   root to: 'static_pages#root'
     namespace :api, defaults: {format: :json} do
-      resources :applications, only: [:index]
+      resources :applications do
+        collection do
+            get 'reload'
+        end
+      end
     end
 end
