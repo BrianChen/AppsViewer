@@ -12,7 +12,7 @@ class App extends React.Component {
 
     this.state = {
       apps: [],
-      chartNum: 1,
+      chartNum: 2,
     }
 
     this.updateApplications = this.updateApplications.bind(this);

@@ -1,56 +1,57 @@
 import React from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 
-import { getChartOneData } from '../helpers/charts';
+import { getChartOneData, getChartOneOptions, getChartTwoData, getChartTwoOptions } from '../helpers/charts';
 
 class Chart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      chartData: {
-        labels: [],
-        datasets: [
-          {
-            label: 'Applications',
-            data: [],
-            backgroundColor: 'rgba(0, 0, 255, 0.3)'
-          }
-        ]
-      },
+      chartData: {},
       chartOptions: {}
     }
   }
 
   componentWillMount() {
-    const chartData = getChartOneData(this.props.apps);
-    debugger;
+    let chartData = {};
+    let chartOptions = {};
+
+    if (this.props.chartNum === 1) {
+      chartData = getChartOneData(this.props.apps);
+      chartOptions = getChartOneOptions();
+    } else if (this.props.chartNum === 2) {
+      chartData = getChartTwoData(this.props.apps);
+      chartOptions = getChartTwoOptions();
+    }
+
     this.setState({
-      chartData
+      chartData,
+      chartOptions
     });
   }
 
-  render() {
-    let displayText;
-    if (this.props.chartNum === 1) {
-      displayText = 'Number of Applications per Hour';
-    }
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.chartNum !== nextProps) {
+  //
+  //   }
+  // }
 
+  renderChart() {
+    if (this.props.chartNum === 1) {
+      return <Bar data={this.state.chartData} options={this.state.chartOptions} />
+    } else if (this.props.chartNum === 2) {
+      return <Pie data={this.state.chartData} options={this.state.chartoptions} />
+    }
+  }
+
+  render() {
+    const chart = this.renderChart();
+    debugger;
     return (
-      <Bar
-        data={this.state.chartData}
-        options={{
-          title: {
-            display: true,
-            text: displayText,
-            fontSize: 25
-          },
-          legend: {
-            display: true,
-            position: 'bottom'
-          }
-        }}
-      />
+      <div className='chart'>
+        {chart}
+      </div>
     )
   }
 }
