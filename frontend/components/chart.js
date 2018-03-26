@@ -14,13 +14,21 @@ class Chart extends React.Component {
   }
 
   componentWillMount() {
+    this.updateChartState(this.props.chartNum);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.updateChartState(nextProps.chartNum);
+  }
+
+  updateChartState(chartNum) {
     let chartData = {};
     let chartOptions = {};
 
-    if (this.props.chartNum === 1) {
+    if (chartNum === 1) {
       chartData = getChartOneData(this.props.apps);
       chartOptions = getChartOneOptions();
-    } else if (this.props.chartNum === 2) {
+    } else if (chartNum === 2) {
       chartData = getChartTwoData(this.props.apps);
       chartOptions = getChartTwoOptions();
     }
@@ -31,23 +39,17 @@ class Chart extends React.Component {
     });
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.chartNum !== nextProps) {
-  //
-  //   }
-  // }
-
   renderChart() {
-    if (this.props.chartNum === 1) {
-      return <Bar data={this.state.chartData} options={this.state.chartOptions} />
-    } else if (this.props.chartNum === 2) {
-      return <Pie data={this.state.chartData} options={this.state.chartoptions} />
-    }
+    return (
+      this.props.chartNum === 1 ?
+        (<Bar data={this.state.chartData} options={this.state.chartOptions} />) :
+        (<Pie data={this.state.chartData} options={this.state.chartoptions} />)
+    );
   }
 
   render() {
     const chart = this.renderChart();
-    debugger;
+
     return (
       <div className='chart'>
         {chart}
