@@ -1,10 +1,17 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #348dfc;
+  width: 100%;
   height: 80px;
-  padding: 0px 30px 0px 30px;
 }
 
 .header__title {
@@ -16,6 +23,7 @@
 .chart-options {
   display: flex;
   justify-content: center;
+  width: 100%;
   margin: 30px;
 }
 
@@ -39,4 +47,8 @@
     cursor: pointer;
     background-color: #7b7b7b;
   }
+}
+
+.chart {
+  width: 90%;
 }
