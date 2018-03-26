@@ -12,7 +12,7 @@ class App extends React.Component {
 
     this.state = {
       apps: [],
-      chart: 1,
+      chartNum: 1,
     }
 
     this.updateApplications = this.updateApplications.bind(this);
@@ -41,7 +41,7 @@ class App extends React.Component {
   renderChartOne() {
     if (this.state.apps.length > 0) {
       return (
-        <Chart apps={this.state.apps}/>
+        <Chart chartNum={this.state.chartNum} apps={this.state.apps}/>
       );
     }
   }

@@ -1,6 +1,7 @@
 import React from 'react';
-
 import { Bar, Pie } from 'react-chartjs-2';
+
+import { getChartOneData } from '../helpers/charts';
 
 class Chart extends React.Component {
   constructor(props) {
@@ -16,57 +17,40 @@ class Chart extends React.Component {
             backgroundColor: 'rgba(0, 0, 255, 0.3)'
           }
         ]
-      }
+      },
+      chartOptions: {}
     }
   }
 
   componentWillMount() {
-    const labels = [];
-    for (let i=0; i<24; i++) {
-      labels.push(i);
-    }
-
-    const data = new Array(24).fill(0);
-    this.props.apps.forEach((app) => {
-      let dateTime = app.created_at;
-      const beginIndex = dateTime.indexOf('T') + 1;
-      const hourMinSec = dateTime.slice(beginIndex, dateTime.length).split(':');
-      const hour = parseInt(hourMinSec[0]);
-      data[hour] = data[hour] + 1;
-
-    });
-
+    const chartData = getChartOneData(this.props.apps);
+    debugger;
     this.setState({
-      chartData: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Applications',
-            data: data,
-            backgroundColor: 'rgba(0, 0, 255, 0.3)'
-          }
-        ]
-      }
+      chartData
     });
   }
 
   render() {
-    let display;
-    if (this.props.chart === 1) {
-      display = 'Number of Applications per Hour';
+    let displayText;
+    if (this.props.chartNum === 1) {
+      displayText = 'Number of Applications per Hour';
     }
+
     return (
-      <div className='chart'>
-        <Bar
-          data={this.state.chartData}
-          options={{
-            title: {
-              display: 'Number of Applications',
-              fontSize: 25
-            }
-          }}
-        />
-      </div>
+      <Bar
+        data={this.state.chartData}
+        options={{
+          title: {
+            display: true,
+            text: displayText,
+            fontSize: 25
+          },
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+        }}
+      />
     )
   }
 }
